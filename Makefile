@@ -1,6 +1,5 @@
-stop_cluster:
-
-start_cluster:
+#stop_cluster:
+#start_cluster:
 
 get_kubeconfig:
 	@read -p 'Enter the desired cluser: ' cluster_id; \
