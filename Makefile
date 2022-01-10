@@ -3,7 +3,7 @@
 
 get_kubeconfig:
 	@read -p 'Enter the desired cluser: ' cluster_id; \
-	scw k8s kubeconfig get $$cluster_id
+	scw k8s kubeconfig get $$cluster_id > ~/.kube/scaleway_fiesta
 
 tf_init:
 	@cd terraform/ && terraform init

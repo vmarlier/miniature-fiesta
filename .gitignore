@@ -85,6 +85,8 @@ tags
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
+**/.terraform/.*
+**/.terraform.lock.hcl
 
 # .tfstate files
 *.tfstate
