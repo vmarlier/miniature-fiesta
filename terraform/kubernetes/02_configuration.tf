@@ -15,5 +15,7 @@ resource "kubernetes_namespace" "namespaces" {
       managed-by = "terraform"
     }
   }
+
+  timeouts { delete = "10m" }
 }
 

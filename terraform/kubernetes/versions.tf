@@ -8,14 +8,6 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.7.1"
     }
-    flux = {
-      source  = "fluxcd/flux"
-      version = "0.8.1"
-    }
-    kubectl = {
-      source  = "gavinbunney/kubectl"
-      version = "1.13.1"
-    }
     time = {
       source  = "hashicorp/time"
       version = "0.7.2"
