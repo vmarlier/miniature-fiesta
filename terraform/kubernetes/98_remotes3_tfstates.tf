@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket                      = "terraform-tfstate"
-    key                         = "miniature-fiesta/terraform.tfstate"
+    key                         = "miniature-fiesta/kubernetes-terraform.tfstate"
     region                      = "fr-par"
     endpoint                    = "https://s3.fr-par.scw.cloud"
     skip_credentials_validation = true
