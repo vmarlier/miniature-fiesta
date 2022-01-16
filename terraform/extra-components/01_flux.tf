@@ -28,7 +28,7 @@ data "flux_install" "main" {
 
   components           = toset(var.flux_components)
   namespace            = "flux-system"
-  network_policy       = true
+  network_policy       = false
   registry             = "ghcr.io/fluxcd"
   version              = "v0.24.1"
   watch_all_namespaces = true
@@ -36,7 +36,7 @@ data "flux_install" "main" {
 
 # Generate GitRepository and Kustomize resources
 data "flux_sync" "main" {
-  target_path = "clusters/my-cluster"
+  target_path = var.flux_target_path
   url         = "https://github.com/${var.github_owner}/${var.repository_name}"
   branch      = "master"
 }

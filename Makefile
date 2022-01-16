@@ -1,6 +1,6 @@
 ## Actions
 
-get_kubeconfig:
+get-kubeconfig:
 	@read -p 'Enter the desired cluser: ' cluster_id; \
 	scw k8s kubeconfig get $$cluster_id > ~/.kube/scaleway_fiesta
 
