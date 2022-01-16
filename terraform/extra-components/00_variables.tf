@@ -1,6 +1,6 @@
 variable "flux_target_path" {
   type    = string
-  default = "configs/flux2"
+  default = "scaleway/miniature-fiesta"
 }
 
 variable "flux_components" {
