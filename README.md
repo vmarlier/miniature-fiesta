@@ -6,7 +6,6 @@ This repository can:
     - create a K8S managed cluster and create some basic resources (NS..)
     - setup Fluxv2.
     - setup SealedSecret.
-    - setup Gloo
 
 ## How to use
 
