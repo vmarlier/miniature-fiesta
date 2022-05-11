@@ -21,3 +21,14 @@ variable "flux_token" {
   type        = string
   description = "Github token that will be used by Fluxv2, populated via environment variable."
 }
+
+variable "sealedsecret_tls-crt" {
+  type        = string
+  description = ".crt file that will be used by sealedsecret as TLS certificate"
+}
+
+variable "sealedsecret_tls-key" {
+  description = ".key file that will be used by sealedsecret as TLS key, populated via environment variable."
+  default     = "./sealed-secret-tls.key"
+  sensitive   = true
+}
