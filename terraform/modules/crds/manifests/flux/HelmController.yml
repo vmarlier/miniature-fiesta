@@ -1,6 +1,9 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.7.0
+  creationTimestamp: null
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -152,15 +155,11 @@ spec:
                     description: "CRDs upgrade CRDs from the Helm Chart's crds directory
                       according to the CRD upgrade policy provided here. Valid values
                       are `Skip`, `Create` or `CreateReplace`. Default is `Create`
-                      and if omitted CRDs are installed but not updated.
- Skip:
-                      do neither install nor replace (update) any CRDs.
- Create:
+                      and if omitted CRDs are installed but not updated. \n Skip:
+                      do neither install nor replace (update) any CRDs. \n Create:
                       new CRDs are created, existing CRDs are neither updated nor
-                      deleted.
- CreateReplace: new CRDs are created, existing CRDs
-                      are updated (replaced) but not deleted.
- By default, CRDs
+                      deleted. \n CreateReplace: new CRDs are created, existing CRDs
+                      are updated (replaced) but not deleted. \n By default, CRDs
                       are applied (installed) during Helm install action. With this
                       option users can opt-in to CRD replace existing CRDs on Helm
                       install actions, which is not (yet) natively supported by Helm.
@@ -222,8 +221,7 @@ spec:
                   skipCRDs:
                     description: "SkipCRDs tells the Helm install action to not install
                       any CRDs. By default, CRDs are installed if not already present.
-
- Deprecated use CRD policy (`crds`) attribute with value `Skip`
+                      \n Deprecated use CRD policy (`crds`) attribute with value `Skip`
                       instead."
                     type: boolean
                   timeout:
@@ -245,16 +243,20 @@ spec:
                 properties:
                   secretRef:
                     description: SecretRef holds the name to a secret that contains
-                      a 'value' key with the kubeconfig file as the value. It must
-                      be in the same namespace as the HelmRelease. It is recommended
-                      that the kubeconfig is self-contained, and the secret is regularly
-                      updated if credentials such as a cloud-access-token expire.
-                      Cloud specific `cmd-path` auth helpers will not function without
-                      adding binaries and credentials to the Pod that is responsible
-                      for reconciling the HelmRelease.
+                      a key with the kubeconfig file as the value. If no key is specified
+                      the key will default to 'value'. The secret must be in the same
+                      namespace as the HelmRelease. It is recommended that the kubeconfig
+                      is self-contained, and the secret is regularly updated if credentials
+                      such as a cloud-access-token expire. Cloud specific `cmd-path`
+                      auth helpers will not function without adding binaries and credentials
+                      to the Pod that is responsible for reconciling the HelmRelease.
                     properties:
+                      key:
+                        description: Key in the Secret, when not specified an implementation-specific
+                          default key is used.
+                        type: string
                       name:
-                        description: Name of the referent.
+                        description: Name of the Secret.
                         type: string
                     required:
                     - name
@@ -583,15 +585,11 @@ spec:
                     description: "CRDs upgrade CRDs from the Helm Chart's crds directory
                       according to the CRD upgrade policy provided here. Valid values
                       are `Skip`, `Create` or `CreateReplace`. Default is `Skip` and
-                      if omitted CRDs are neither installed nor upgraded.
- Skip:
-                      do neither install nor replace (update) any CRDs.
- Create:
+                      if omitted CRDs are neither installed nor upgraded. \n Skip:
+                      do neither install nor replace (update) any CRDs. \n Create:
                       new CRDs are created, existing CRDs are neither updated nor
-                      deleted.
- CreateReplace: new CRDs are created, existing CRDs
-                      are updated (replaced) but not deleted.
- By default, CRDs
+                      deleted. \n CreateReplace: new CRDs are created, existing CRDs
+                      are updated (replaced) but not deleted. \n By default, CRDs
                       are not applied during Helm upgrade action. With this option
                       users can opt-in to CRD upgrade, which is not (yet) natively
                       supported by Helm. https://helm.sh/docs/chart_best_practices/custom_resource_definitions."
@@ -728,8 +726,7 @@ spec:
                     \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
                     \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
                     patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-
-     // other fields }"
+                    \n     // other fields }"
                   properties:
                     lastTransitionTime:
                       description: lastTransitionTime is the last time the condition
@@ -837,3 +834,9 @@ spec:
     storage: true
     subresources:
       status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

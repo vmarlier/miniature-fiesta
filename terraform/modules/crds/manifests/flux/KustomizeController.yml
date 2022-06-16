@@ -1,6 +1,9 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.7.0
+  creationTimestamp: null
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
@@ -327,8 +330,8 @@ spec:
                     description: Substitute holds a map of key/value pairs. The variables
                       defined in your YAML manifests that match any of the keys defined
                       in the map will be substituted with the set value. Includes
-                      support for bash string replacement functions e.g. $${var:=default},
-                      $${var:position} and $${var/substring/replacement}.
+                      support for bash string replacement functions e.g. ${var:=default},
+                      ${var:position} and ${var/substring/replacement}.
                     type: object
                   substituteFrom:
                     description: SubstituteFrom holds references to ConfigMaps and
@@ -442,8 +445,7 @@ spec:
                     \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
                     \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
                     patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-
-     // other fields }"
+                    \n     // other fields }"
                   properties:
                     lastTransitionTime:
                       description: lastTransitionTime is the last time the condition
@@ -694,17 +696,21 @@ spec:
                   is empty.
                 properties:
                   secretRef:
-                    description: SecretRef holds the name to a secret that contains
-                      a 'value' key with the kubeconfig file as the value. It must
-                      be in the same namespace as the Kustomization. It is recommended
-                      that the kubeconfig is self-contained, and the secret is regularly
-                      updated if credentials such as a cloud-access-token expire.
-                      Cloud specific `cmd-path` auth helpers will not function without
-                      adding binaries and credentials to the Pod that is responsible
-                      for reconciling the Kustomization.
+                    description: SecretRef holds the name of a secret that contains
+                      a key with the kubeconfig file as the value. If no key is set,
+                      the key will default to 'value'. The secret must be in the same
+                      namespace as the Kustomization. It is recommended that the kubeconfig
+                      is self-contained, and the secret is regularly updated if credentials
+                      such as a cloud-access-token expire. Cloud specific `cmd-path`
+                      auth helpers will not function without adding binaries and credentials
+                      to the Pod that is responsible for reconciling the Kustomization.
                     properties:
+                      key:
+                        description: Key in the Secret, when not specified an implementation-specific
+                          default key is used.
+                        type: string
                       name:
-                        description: Name of the referent.
+                        description: Name of the Secret.
                         type: string
                     required:
                     - name
@@ -872,8 +878,8 @@ spec:
                     description: Substitute holds a map of key/value pairs. The variables
                       defined in your YAML manifests that match any of the keys defined
                       in the map will be substituted with the set value. Includes
-                      support for bash string replacement functions e.g. $${var:=default},
-                      $${var:position} and $${var/substring/replacement}.
+                      support for bash string replacement functions e.g. ${var:=default},
+                      ${var:position} and ${var/substring/replacement}.
                     type: object
                   substituteFrom:
                     description: SubstituteFrom holds references to ConfigMaps and
@@ -996,8 +1002,7 @@ spec:
                     \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
                     \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
                     patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
-
-     // other fields }"
+                    \n     // other fields }"
                   properties:
                     lastTransitionTime:
                       description: lastTransitionTime is the last time the condition
@@ -1104,3 +1109,9 @@ spec:
     storage: true
     subresources:
       status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
