@@ -1,0 +1,19 @@
+terraform {
+  required_version = ">= 1.1"
+
+  backend "s3" {
+    bucket                      = "terraform-tfstate"
+    key                         = "miniature-fiesta/kubernetes-terraform.tfstate"
+    region                      = "fr-par"
+    endpoint                    = "https://s3.fr-par.scw.cloud"
+    skip_credentials_validation = true
+    skip_region_validation      = true
+  }
+
+  required_providers {
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "~> 2.2.1"
+    }
+  }
+}
