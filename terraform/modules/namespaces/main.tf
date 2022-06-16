@@ -4,13 +4,12 @@ resource "kubernetes_namespace" "namespace" {
     name = each.key
     labels = merge(each.value.labels, {}, {
       "networking/namespace" = each.key
-      "vault-injection"      = "enabled"
     })
     annotations = each.value.annotations
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes = [
       metadata[0].annotations,
       metadata[0].labels["field.cattle.io/projectId"],

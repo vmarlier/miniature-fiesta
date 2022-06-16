@@ -1,39 +1,20 @@
-## Actions
-
 get-kubeconfig:
 	@read -p 'Enter the desired cluser: ' cluster_id; \
-	scw k8s kubeconfig get $$cluster_id > ~/.kube/scaleway_fiesta
+	read -p 'Enter the scaleway profile: ' scw_profile; \
+	scw --profile $$scw_profile k8s kubeconfig get $$cluster_id > ~/.kube/scaleway_fr-production
 
-deploy-kubernetes:
-	@cd terraform/kubernetes && terraform apply -auto-approve
+init:
+	@cd terraform/$(topology) && terraform init
 
-delete-kubernetes:
-	@cd terraform/kubernetes && terraform destroy
+check: init
+	@cd terraform/$(topology) && terraform validate
+	@cd terraform/$(topology) && terraform fmt
 
-deploy-extra-components:
-	@cd terraform/extra-components && terraform apply -auto-approve
+plan: check
+	@cd terraform/$(topology) && terraform plan
 
-delete-extra-components:
-	@cd terraform/extra-components && terraform destroy
+apply:
+	@cd terraform/$(topology) && terraform apply -auto-approve
 
-## 
-
-init-kubernetes:
-	@cd terraform/kubernetes && terraform init
-
-init-extra-components:
-	@cd terraform/extra-components && terraform init
-
-check-kubernetes: init-kubernetes
-	@cd terraform/kubernetes && terraform validate
-	@cd terraform/kubernetes && terraform fmt
-
-check-extra-components: init-extra-components
-	@cd terraform/extra-components && terraform validate
-	@cd terraform/extra-components && terraform fmt
-
-plan-kubernetes: check-kubernetes
-	@cd terraform/kubernetes && terraform plan
-
-plan-extra-components: check-extra-components
-	@cd terraform/extra-components && terraform plan
+destroy:
+	@cd terraform/$(topology) && terraform destroy
