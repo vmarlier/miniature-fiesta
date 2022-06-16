@@ -330,8 +330,8 @@ spec:
                     description: Substitute holds a map of key/value pairs. The variables
                       defined in your YAML manifests that match any of the keys defined
                       in the map will be substituted with the set value. Includes
-                      support for bash string replacement functions e.g. ${var:=default},
-                      ${var:position} and ${var/substring/replacement}.
+                      support for bash string replacement functions e.g. $${var:=default},
+                      $${var:position} and $${var/substring/replacement}.
                     type: object
                   substituteFrom:
                     description: SubstituteFrom holds references to ConfigMaps and
@@ -878,8 +878,8 @@ spec:
                     description: Substitute holds a map of key/value pairs. The variables
                       defined in your YAML manifests that match any of the keys defined
                       in the map will be substituted with the set value. Includes
-                      support for bash string replacement functions e.g. ${var:=default},
-                      ${var:position} and ${var/substring/replacement}.
+                      support for bash string replacement functions e.g. $${var:=default},
+                      $${var:position} and $${var/substring/replacement}.
                     type: object
                   substituteFrom:
                     description: SubstituteFrom holds references to ConfigMaps and

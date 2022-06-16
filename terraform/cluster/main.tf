@@ -1,5 +1,5 @@
 module "kapsule" {
-  source   = "git@github.com:vmarlier/terraform-modules.git//kapsule?ref=main"
+  source = "git@github.com:vmarlier/terraform-modules.git//kapsule?ref=main"
 
   cluster_name    = "fr-production"
   cluster_version = "1.22.9"
