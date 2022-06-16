@@ -1,6 +1,7 @@
-# Namespaces
+# CRDs
 
-This module allow us to deploy a list of namespaces on a Kubernetes cluster.
+This module allow us to deploy CRDs that we don't want to deploy through HelmRelease, it is a Best Practice to make sure resources based on these CRDs will not be removed if we need to migrate/delete
+the tool (e.g. Do not delete kustomizations from Fluxv2 cause all the files deployed by the kustomization resources will be removed too, total outage).
 
 ```hcl
 module "crds" {
