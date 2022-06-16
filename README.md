@@ -2,10 +2,8 @@
 
 The idea behind miniature fiesta is to managed a k8s in a production like environment with different tools and methodologies.
 
-This repository can:
-    - create a K8S managed cluster and create some basic resources (NS..)
-    - setup Fluxv2.
-    - setup SealedSecret.
+* [Terraform topologies](./terraform/): This topology is in charge of creating the Kubernetes cluster (on Scaleway Cloud) and to setup the basic tools (GitOps + SealedSecret).
+* [GitOps](./clusters/): This directory is the one used with Fluxv2 for the GitOps part of the project.
 
 ## How to use
 
