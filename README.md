@@ -7,6 +7,12 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
 
 ## TODO
 
+- [X] Kapsule Cluster
+- [X] Cluster Configuration
+  - [X] CRDs
+  - [X] Namespaces
+  - [X] GitOps: Fluxv2 Stack
+  - [X] Secret Handling: SealedSecret
 - [ ] Cluster Hardening and Security Improvment
   - [ ] Admission Controller: Kyverno
   - [ ] Network Policies
