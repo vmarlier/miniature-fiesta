@@ -11,6 +11,8 @@ module "crds" {
 
   crds = {
     "flux" : {}
+    "kyverno": {}
+    "sealed-secrets": {}
   }
 }
 
