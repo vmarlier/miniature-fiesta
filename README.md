@@ -5,6 +5,26 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
 * [Terraform topologies](./terraform/): This topology is in charge of creating the Kubernetes cluster (on Scaleway Cloud) and to setup the basic tools (GitOps + SealedSecret).
 * [GitOps](./config/): This directory is the one used with Fluxv2 for the GitOps part of the project.
 
+## TODO
+
+- [ ] Cluster Hardening and Security Improvment
+  - [ ] Admission Controller: Kyverno
+  - [ ] Network Policies
+- [ ] Observability Stack
+  - [ ] Prometheus
+  - [ ] Thanos
+  - [ ] Grafana (+ on call plug-in)
+  - [ ] Loki
+  - [ ] Tempo
+- [ ] Proxy, Mesh, Ingress
+  - [ ] Traefik2
+  - [ ] Gloo ?
+  - [ ] Istio
+- [ ] Others
+  - [ ] OpenFaaS ?
+  - [ ] Keda ?
+  - [ ] Karma ?
+
 ## How to use the GitOps stack
 
 ## How to use the Terraform stack
