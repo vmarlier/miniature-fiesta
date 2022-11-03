@@ -11,8 +11,8 @@ module "crds" {
 
   crds = {
     "flux" : {}
-    "kyverno": {}
-    "sealed-secrets": {}
+    #"kyverno" : {}
+    "sealed-secrets" : {}
   }
 }
 
@@ -75,8 +75,8 @@ module "fluxv2" {
   buckets = {}
 
   labels = {
-    "app.kubernetes.io/name"       = "fluxv2"
-    "app.kubernetes.io/part-of"    = "admin-tooling"
+    "app.kubernetes.io/name"    = "fluxv2"
+    "app.kubernetes.io/part-of" = "admin-tooling"
   }
 }
 
@@ -87,8 +87,8 @@ module "sealed_secret" {
   chart_version = "2.2.0"
   namespace     = "admin"
 
-  tls_key = data.ansiblevault_string.sealedsecret_tls_key.value 
-  tls_crt = data.ansiblevault_string.sealedsecret_tls_crt.value 
+  tls_key = data.ansiblevault_string.sealedsecret_tls_key.value
+  tls_crt = data.ansiblevault_string.sealedsecret_tls_crt.value
 
   #service_monitor_labels = "default"
   #grafana_dashboard      = true
