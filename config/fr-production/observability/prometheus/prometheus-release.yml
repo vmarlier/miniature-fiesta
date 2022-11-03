@@ -1,0 +1,137 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prometheus
+  namespace: observability
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  releaseName: prometheus
+  maxHistory: 2
+  interval: 5m
+  timeout: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 41.7.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: admin
+      interval: 10m
+  values:
+    nameOverride: "prometheus"
+    fullnameOverride: "prometheus"
+
+    ingress:
+      enabled: false
+
+    thanosService:
+      enabled: false
+
+    thanosServiceMonitor:
+      enabled: false
+
+    #commonLabels:
+    #  app.kubernetes.io/part-of: prometheus
+
+    prometheusSpec:
+      logFormat: json
+      logLevel: info
+
+      ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
+      ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+      podAntiAffinity: "soft"
+
+      ## PodMonitors to be selected for target discovery.
+      podMonitorSelector:
+        matchExpressions:
+          - key: prometheus
+            operator: In
+            values:
+              - prometheus-kube-cluster
+
+      ## ServiceMonitors to be selected for target discovery.
+      serviceMonitorSelector:
+          matchExpressions:
+            - key: prometheus
+              operator: In
+              values:
+                - prometheus-kube-cluster
+
+      ## PrometheusRules to be selected for target discovery.
+      ruleSelector:
+          matchExpressions:
+            - key: prometheus
+              operator: In
+              values:
+                - prometheus-kube-cluster
+
+      ruleSelectorNilUsesHelmValues: false
+
+      replicas: 2
+
+      ## Number of replicas multiplied by shards is the total number of Pods created.
+      shards: 1
+
+      resources:
+        limits:
+          cpu: 200m
+          memory: 400Mi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+
+      ## How long to retain metrics
+      ##
+      retention: 10d
+
+      ## Maximum size of metrics
+      ##
+      retentionSize: "2Gi"
+
+      ## Prometheus StorageSpec for persistent data
+      #storageSpec:
+      #    volumeClaimTemplate:
+      #      spec:
+      #        accessModes:
+      #          - ReadWriteOnce
+      #        resources:
+      #          requests:
+      #            storage: 50Gi
+      #        storageClassName: gp2
+
+    # Disabling stuff
+    defaultRules:
+      create: false
+    alertmanager:
+      enabled: false
+    grafana:
+      enabled: false
+    nodeExporter:
+      enabled: false
+    prometheusOperator:
+      enabled: false
+      admissionWebhooks:
+        enabled: false
+        patch:
+          enabled: false
+    coreDns:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    kubeStateMetrics:
+      enabled: false
+    kubeApiServer:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    kubeDns:
+      enabled: false
+    kubelet:
+      enabled: false
