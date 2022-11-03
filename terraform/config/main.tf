@@ -3,6 +3,7 @@ module "namespaces" {
 
   namespaces = {
     "admin" : {}
+    "observability" : {}
   }
 }
 
@@ -26,13 +27,13 @@ module "fluxv2" {
   # Requests/Limits Resources adjusments
   helm_controller_cpu_requests    = "100m"
   helm_controller_cpu_limits      = "100m"
-  helm_controller_memory_requests = "64Mi"
-  helm_controller_memory_limits   = "64Mi"
+  helm_controller_memory_requests = "256Mi"
+  helm_controller_memory_limits   = "256Mi"
 
   source_controller_cpu_requests    = "100m"
   source_controller_cpu_limits      = "100m"
-  source_controller_memory_requests = "64Mi"
-  source_controller_memory_limits   = "64Mi"
+  source_controller_memory_requests = "128Mi"
+  source_controller_memory_limits   = "128Mi"
 
   kustomize_controller_cpu_requests    = "100m"
   kustomize_controller_cpu_limits      = "100m"
