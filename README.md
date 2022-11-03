@@ -13,19 +13,25 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [X] Namespaces
   - [X] GitOps: Fluxv2 Stack
   - [X] Secret Handling: SealedSecret
-- [ ] Cluster Hardening and Security Improvment
-  - [ ] Admission Controller: Kyverno
-  - [ ] Network Policies
 - [ ] Observability Stack
   - [ ] Prometheus
   - [ ] Thanos
   - [ ] Grafana (+ on call plug-in)
   - [ ] Loki
   - [ ] Tempo
-- [ ] Proxy, Mesh, Ingress
+- [ ] Dumb applications
+  - [ ] Dumb 1
+  - [ ] Dumb 2
+- [ ] Service Mesh
+  - [ ] Test Ambient
+  - [ ] Test Cilium
+- [ ] Proxy, Ingress
   - [ ] Traefik2
   - [ ] Gloo ?
   - [ ] Istio
+- [ ] Cluster Hardening and Security Improvment
+  - [ ] Admission Controller: Kyverno
+  - [ ] Network Policies
 - [ ] Others
   - [ ] OpenFaaS ?
   - [ ] Keda ?
