@@ -14,6 +14,7 @@ module "crds" {
     "flux" : {}
     #"kyverno" : {}
     "sealed-secrets" : {}
+    "prometheus" : {}
   }
 }
 
