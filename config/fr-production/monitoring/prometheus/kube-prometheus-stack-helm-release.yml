@@ -33,8 +33,9 @@ spec:
     thanosServiceMonitor:
       enabled: false
 
-    #commonLabels:
-    #  app.kubernetes.io/part-of: prometheus
+    commonLabels:
+      # Used for prometheus-operator self monitoring
+      prometheus: prometheus-application
 
     prometheusSpec:
       logFormat: json
@@ -73,7 +74,7 @@ spec:
       replicas: 2
 
       ## Number of replicas multiplied by shards is the total number of Pods created.
-      ## shards: 1
+      shards: 1
 
       resources:
         limits:
@@ -102,6 +103,22 @@ spec:
       #            storage: 50Gi
       #        storageClassName: gp2
 
+    # Enable deployment of the Prometheus Operator itself
+    prometheusOperator:
+      enabled: true
+      createCustomResource: false
+
+      logLevel: info
+      logFormat: json
+
+      resources:
+        limits:
+          cpu: 200m
+          memory: 400Mi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+
     # Disabling stuff
     defaultRules:
       create: false
@@ -111,12 +128,6 @@ spec:
       enabled: false
     nodeExporter:
       enabled: false
-    prometheusOperator:
-      enabled: false
-      admissionWebhooks:
-        enabled: false
-        patch:
-          enabled: false
     coreDns:
       enabled: false
     kubeControllerManager:
