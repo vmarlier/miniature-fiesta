@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: prometheus
-  namespace: observability
+  namespace: monitoring
   labels:
     app.kubernetes.io/managed-by: flux
 spec:
@@ -73,7 +73,7 @@ spec:
       replicas: 2
 
       ## Number of replicas multiplied by shards is the total number of Pods created.
-      shards: 1
+      ## shards: 1
 
       resources:
         limits:

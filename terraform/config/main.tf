@@ -3,7 +3,7 @@ module "namespaces" {
 
   namespaces = {
     "admin" : {}
-    "observability" : {}
+    "monitoring" : {}
   }
 }
 
