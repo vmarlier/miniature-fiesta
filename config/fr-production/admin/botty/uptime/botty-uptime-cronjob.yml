@@ -1,0 +1,29 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: botty-uptime
+  namespace: admin
+spec:
+  jobTemplate:
+    metadata:
+      name: botty-uptime
+    spec:
+      template:
+        metadata:
+        spec:
+          containers:
+            - image: cosmintitei/bash-curl
+              name: alert-duty
+              command: [bash]
+              args: [/etc/botty/botty-uptime]
+              volumeMounts:
+                - name: botty-script
+                  mountPath: /etc/botty
+          restartPolicy: Never
+          volumes:
+            - name: botty-script
+              secret:
+                secretName: botty-uptime
+  schedule: 0 * * * *
+status: {}
