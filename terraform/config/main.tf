@@ -32,8 +32,8 @@ module "fluxv2" {
 
   source_controller_cpu_requests    = "100m"
   source_controller_cpu_limits      = "100m"
-  source_controller_memory_requests = "128Mi"
-  source_controller_memory_limits   = "128Mi"
+  source_controller_memory_requests = "512Mi"
+  source_controller_memory_limits   = "512Mi"
 
   kustomize_controller_cpu_requests    = "100m"
   kustomize_controller_cpu_limits      = "100m"
