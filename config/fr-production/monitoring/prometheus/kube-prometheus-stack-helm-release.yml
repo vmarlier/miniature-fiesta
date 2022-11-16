@@ -35,7 +35,7 @@ spec:
 
     commonLabels:
       # Used for prometheus-operator self monitoring
-      prometheus: prometheus-application
+      prometheus: prometheus-kube-cluster
 
     prometheusSpec:
       logFormat: json
