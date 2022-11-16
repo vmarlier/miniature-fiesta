@@ -12,7 +12,6 @@ module "crds" {
 
   crds = {
     "flux" : {}
-    #"kyverno" : {}
     "sealed-secrets" : {}
     "prometheus" : {}
   }
@@ -96,4 +95,19 @@ module "sealed_secret" {
   #grafana_dashboard      = true
 
   labels = {}
+}
+
+resource "scaleway_object_bucket" "thanos" {
+  name   = "thanos-fr-production"
+  region = "fr-par"
+  acl    = "private"
+
+  lifecycle_rule {
+    id      = "id1"
+    enabled = true
+
+    expiration {
+      days = 365
+    }
+  }
 }

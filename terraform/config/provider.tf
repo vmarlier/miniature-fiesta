@@ -27,6 +27,10 @@ terraform {
       source  = "MeilleursAgents/ansiblevault"
       version = "~> 2.2.0"
     }
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "~> 2.5.0"
+    }
   }
 }
 

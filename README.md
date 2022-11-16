@@ -19,16 +19,16 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [X] Grafana (+ on call plug-in)
   - [ ] Loki
   - [ ] Tempo
+- [ ] Ingress Controller
+  - [ ] Traefik2
 - [ ] Dumb applications
   - [ ] Dumb 1
   - [ ] Dumb 2
 - [ ] Service Mesh
   - [ ] Test Ambient
   - [ ] Test Cilium
-- [ ] Proxy, Ingress
-  - [ ] Traefik2
+- [ ] API Gateway
   - [ ] Gloo ?
-  - [ ] Istio
 - [ ] Cluster Hardening and Security Improvment
   - [ ] Admission Controller: Kyverno
   - [ ] Network Policies

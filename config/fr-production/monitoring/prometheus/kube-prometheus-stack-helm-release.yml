@@ -28,10 +28,10 @@ spec:
       enabled: false
 
     thanosService:
-      enabled: false
+      enabled: true
 
     thanosServiceMonitor:
-      enabled: false
+      enabled: true
 
     commonLabels:
       # Used for prometheus-operator self monitoring
@@ -40,6 +40,13 @@ spec:
     prometheusSpec:
       logFormat: json
       logLevel: info
+
+      # Connect to Alertmanager
+      alertingEndpoints:
+        - name: alertmanager-operated
+          namespace: monitoring
+          pathPrefix: /
+          port: http-web
 
       ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
       ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
@@ -75,6 +82,18 @@ spec:
 
       ## Number of replicas multiplied by shards is the total number of Pods created.
       shards: 1
+
+      thanos:
+        objectStorageConfig:
+          key: objstore.yml
+          name: thanos-objstore
+        resources:
+          limits:
+            cpu: 200m
+            memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 500Mi
 
       resources:
         limits:
