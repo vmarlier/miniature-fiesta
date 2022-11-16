@@ -119,6 +119,64 @@ spec:
           cpu: 200m
           memory: 400Mi
 
+    # Enabling some stuff
+    alertmanager:
+      enabled: true
+
+      config:
+        inhibit_rules:
+          # Silence a warning alert if the same alert is raised as critical.
+          - source_match:
+              severity: critical
+            target_match:
+              severity: warning
+            equal:
+              [
+                alertname,
+                instance,
+                pod,
+                job,
+                provider,
+                environment,
+                cluster,
+                platform,
+              ]
+
+        route:
+          # Default route for leftovers
+          receiver: "null"
+
+          # Grouping configuration
+          group_wait: 5s
+          group_interval: 10s
+          group_by:
+            [alertname, job, severity, provider, environment, cluster, platform]
+
+      alertmanagerSpec:
+        replicas: 2
+        logLevel: info
+        logFormat: json
+
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: standard
+              accessModes: [ReadWriteOnce]
+              resources:
+                requests:
+                  storage: 10Gi
+
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 200m
+          limits:
+            memory: 500Mi
+            cpu: 200m
+
+    nodeExporter:
+      enabled: true
+
     # Disabling stuff
     defaultRules:
       create: false
