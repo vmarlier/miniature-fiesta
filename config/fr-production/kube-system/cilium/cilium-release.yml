@@ -26,6 +26,9 @@ spec:
       install: false
     hubble:
       enabled: true
+      tls:
+        auto:
+          enabled: true
       relay:
         # set this to false as Hubble relay is already installed
         enabled: true
