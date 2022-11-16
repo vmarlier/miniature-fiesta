@@ -1,0 +1,195 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  releaseName: thanos
+  chart:
+    spec:
+      chart: thanos
+      version: 11.5.4
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: tooling
+      interval: 10m
+  maxHistory: 2
+  interval: 5m
+  timeout: 15m
+  values:
+    global:
+      storageClass: standard
+
+    existingObjstoreSecret: thanos-objstore
+    existingServiceAccount: thanos
+
+    bucketweb:
+      enabled: true
+      logLevel: info
+      logFormat: json
+
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+
+      extraFlags:
+        - --web.external-prefix=bucket
+        - --web.route-prefix=bucket
+
+    compactor:
+      enabled: true
+      logLevel: info
+      logFormat: json
+
+      extraFlags:
+        # Enable vertical compaction with the penalty algorithm
+        # https://thanos.io/tip/components/compact.md/#vertical-compaction-use-cases
+        - --compact.concurrency=2
+        - --compact.enable-vertical-compaction
+        - --deduplication.func=penalty
+        - --deduplication.replica-label=replica # Supposed to take over all other replica labels at some point
+        - --deduplication.replica-label=prometheus_replica # Set in Prometheus instances
+        - --deduplication.replica-label=thanos_ruler_replica # Set in Thanos Ruler instances
+        - --downsample.concurrency=2
+
+      serviceAccount:
+        existingServiceAccount: thanos
+
+      hostAliases: []
+
+      retentionResolutionRaw: 15d
+      retentionResolution5m: 90d
+      retentionResolution1h: 180d
+
+      strategyType: Recreate
+      securityContext: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+
+      persistence:
+        size: 20Gi
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        labels:
+          prometheus: prometheus-kube-cluster
+
+    query:
+      enabled: true
+      logLevel: info
+      logFormat: json
+
+      replicaCount: 2
+
+      replicaLabel:
+        - prometheus_replica # Set in Prometheus instances
+        - thanos_receive_replica # Set in Thanos Receive instances
+        - thanos_ruler_replica # Set in Thanos Ruler instances
+        - replica # Attempt to unite those (wait for offline deduplication to be ready)
+
+      dnsDiscovery:
+        enabled: true
+
+      stores:
+        - dnssrv+_grpc._tcp.thanos-receive-receive-headless.monitoring.svc.cluster.local
+
+      extraFlags:
+        - --query.max-concurrent=60
+        - --query.max-concurrent-select=12
+
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 500m
+          memory: 1Gi
+
+    queryFrontend:
+      enabled: true
+      logLevel: info
+      logFormat: json
+
+      replicaCount: 1
+
+      extraFlags:
+        - --query-range.max-query-parallelism=42
+        - --query-frontend.log-queries-longer-than=30s
+
+    # Thanos receive is being deployed in the thanos-receive release
+    # with it's own dedicated compactor
+    receive:
+      enabled: true
+      replicaCount: 2
+
+      replicaLabel: thanos_receive_replica
+
+      logLevel: info
+      logFormat: json
+
+      tsdbRetention: 2d
+
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1Gi
+        limits:
+          cpu: 500m
+          memory: 1Gi
+
+      persistence:
+        enabled: true
+        size: 20Gi
+
+      # We want to have both
+      service:
+        additionalHeadless: true
+
+      pdb:
+        create: true
+        minAvailable: ""
+        maxUnavailable: 1
+
+      # Available flags: https://thanos.io/tip/components/receive.md/#flags
+      extraFlags:
+        - --label=environment="fr-production"
+        - --label=provider="scaleway"
+        - --tsdb.allow-overlapping-blocks # Help with ingesting out of order samples from Prometheus
+
+    storegateway:
+      enabled: true
+      logLevel: info
+      logFormat: json
+
+      sharded:
+        enabled: false
+
+      extraFlags:
+        - --block-meta-fetch-concurrency=64
+        - --store.grpc.series-max-concurrency=40
+        - --block-sync-concurrency=40
+
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 2Gi
+
+      persistence:
+        enabled: true
+        size: 10Gi
