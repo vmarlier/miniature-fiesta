@@ -146,14 +146,14 @@ spec:
         logLevel: info
         logFormat: json
 
-        storage:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: standard
-              accessModes: [ReadWriteOnce]
-              resources:
-                requests:
-                  storage: 10Gi
+        #storage:
+        #  volumeClaimTemplate:
+        #    spec:
+        #      storageClassName: standard
+        #      accessModes: [ReadWriteOnce]
+        #      resources:
+        #        requests:
+        #          storage: 10Gi
 
         resources:
           requests:
