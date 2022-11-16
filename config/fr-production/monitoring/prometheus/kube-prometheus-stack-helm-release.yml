@@ -92,17 +92,6 @@ spec:
       ##
       retentionSize: "2Gi"
 
-      ## Prometheus StorageSpec for persistent data
-      #storageSpec:
-      #    volumeClaimTemplate:
-      #      spec:
-      #        accessModes:
-      #          - ReadWriteOnce
-      #        resources:
-      #          requests:
-      #            storage: 50Gi
-      #        storageClassName: gp2
-
     # Enable deployment of the Prometheus Operator itself
     prometheusOperator:
       enabled: true
@@ -174,33 +163,69 @@ spec:
             memory: 500Mi
             cpu: 200m
 
+
+    # Kube Monitoring Stuff
+    coreDns:
+      enabled: true
+    kubelet:
+      enabled: true
+    kubeProxy:
+      enabled: true
+    kubeApiServer:
+      enabled: true
+
     nodeExporter:
       enabled: true
+    prometheus-node-exporter:
+      nameOverride: node-exporter
+      fullnameOverride: node-exporter
+      priorityClassName: node-exporter-critical
+      prometheus:
+        monitor:
+          enabled: true
+          additionalLabels:
+            prometheus: prometheus-kube-stack
+
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 3
+
+      resources:
+        limits:
+          memory: 64Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+
+    kubeStateMetrics:
+      enabled: true
+    kube-state-metrics:
+      nameOverride: kube-state-metrics
+      fullnameOverride: kube-state-metrics
+      prometheus:
+        monitor:
+          additionalLabels:
+            prometheus: prometheus-kube-stack
+
+      # See https://github.com/kubernetes/kube-state-metrics/#resource-recommendation
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 100m
+        limits:
+          memory: 200Mi
 
     # Disabling stuff
     defaultRules:
       create: false
-    alertmanager:
-      enabled: false
     grafana:
       enabled: false
-    nodeExporter:
-      enabled: false
-    coreDns:
-      enabled: false
     kubeControllerManager:
-      enabled: false
-    kubeStateMetrics:
-      enabled: false
-    kubeApiServer:
       enabled: false
     kubeScheduler:
       enabled: false
     kubeEtcd:
       enabled: false
-    kubeProxy:
-      enabled: false
     kubeDns:
-      enabled: false
-    kubelet:
       enabled: false
