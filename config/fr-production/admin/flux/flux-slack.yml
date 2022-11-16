@@ -1,0 +1,51 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: flux-slack
+  namespace: admin
+spec:
+  encryptedData:
+    address: AgDAdmk7PbDafK8AvZt8CIz4aZNc65Qjyq83MQ8+FE9UGtbkV3D3r+DEDCuoRl3V9XzWDIc4a6GvVmWaGjIy+lQ7ZSpJxPZNWkTqHc29Lgjg6zu7rXhN3xMa0rO0Qzm4dZTfRrGTxpOxi/u3aaTXLTtb5h22Or6twlo+MeGgShRs/ByEEyte7lRjuT9FFYwTcMFhl5c2jk6VgMXqEmZYfW/p0Yd8Wk8U1XJN/m83T7TvKuS6qmEjTL98Et09Wr6nuaSa7bsYdRj73Jp1efYxoREOpj7ebe1Em8Q8RKgnzEqFNxwgJYTxVS7oSO13+T7vezsyyfJOGlEwkRPHTUz/70S2alJvCYNSue8CW/Gd+kESeICOjLWb3mX/2Mp42iIIXH3XS9L1UKUNE42VYplcBgQCQdzUTuIRUBZT8J8pKuQ2TCsOvM9n2lH08s+wvuzMpkRo++polQgHKWNrqO6UTTK9wCHhlaPY2DZs6rEVgxXfPNM+Ky5pY0HdtggSB9CNdLbEuV8Oa2zVpT79r+FvYSCpAm2scG5XosrEH7XdubZlmZ9f7icsYvor/FcmOqeiOqxq3qGERkTjnsp5dplcprOAMn2NTKC11rqxhW0jm1Kl+ixagIOQdVQJxksmtQnUR/AcLvF9Jw73EI5FNdvSSXGDwtjdgjReduIPTRBIp5a3Mqg9zsXgjM/I+pW1IJszZQjjrepTYoClfoTmMxjY3hgi44s/QRxQ7zQ1mGWODHxl9SJ7BAkq0TviDm2UmiTFwMf/7vhfgExfJTUBigioH8JCbFUu8wVZ/OeTfT3W6SDCaU4=
+  template:
+    metadata:
+      name: flux-slack
+      namespace: admin
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: flux-slack
+  namespace: admin
+spec:
+  type: slack
+  channel: flux-miniature-fiesta
+  secretRef:
+    name: flux-slack
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: flux-slack
+  namespace: admin
+spec:
+  providerRef:
+    name: flux-slack
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: miniature-fiesta-fr-production
+      namespace: admin
+    - kind: Kustomization
+      name: miniature-fiesta-common
+      namespace: admin
+
+    - kind: HelmRelease
+      name: '*'
+      namespace: admin
+    - kind: HelmRelease
+      name: '*'
+      namespace: monitoring
+    - kind: HelmRelease
+      name: '*'
+      namespace: kube-system
