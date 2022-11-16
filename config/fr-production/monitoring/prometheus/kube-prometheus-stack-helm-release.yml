@@ -21,8 +21,8 @@ spec:
         namespace: admin
       interval: 10m
   values:
-    nameOverride: "prometheus"
-    fullnameOverride: "prometheus"
+    nameOverride: "prometheus-kube-stack"
+    fullnameOverride: "prometheus-kube-stack"
 
     ingress:
       enabled: false
