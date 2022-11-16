@@ -20,9 +20,9 @@ module "kapsule" {
       region    = "fr-par"
 
       scaling = {
-        size     = 3
+        size     = 4
         min_size = 3
-        max_size = 3
+        max_size = 4
       }
 
       autoscaling         = false

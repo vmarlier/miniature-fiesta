@@ -15,13 +15,13 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [X] Secret Handling: SealedSecret
 - [ ] Observability Stack
   - [X] Prometheus
-  - [ ] Thanos - WIP
+  - [X] Thanos
   - [X] Grafana
   - [ ] Loki
   - [ ] Tempo
 - [ ] Service Mesh - Cilium
   - [X] Hubble
-  - [ ] Demo Application 
+  - [ ] Demo Application - WIP
 - [ ] Ingress Controller
   - [ ] Traefik2
 - [ ] API Gateway

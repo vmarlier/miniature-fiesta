@@ -4,6 +4,7 @@ module "namespaces" {
   namespaces = {
     "admin" : {}
     "monitoring" : {}
+    "star-wars" : {}
   }
 }
 
