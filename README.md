@@ -14,9 +14,9 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [X] GitOps: Fluxv2 Stack
   - [X] Secret Handling: SealedSecret
 - [ ] Observability Stack
-  - [ ] Prometheus
+  - [X] Prometheus
   - [ ] Thanos
-  - [ ] Grafana (+ on call plug-in)
+  - [X] Grafana (+ on call plug-in)
   - [ ] Loki
   - [ ] Tempo
 - [ ] Dumb applications
