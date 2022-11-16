@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: tooling
+        namespace: admin
       interval: 10m
   maxHistory: 2
   interval: 5m
