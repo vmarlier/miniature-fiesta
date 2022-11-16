@@ -20,6 +20,12 @@ spec:
   maxHistory: 2
   interval: 5m
   timeout: 15m
+  valuesFrom:
+    - kind: Secret
+      name: grafana-notifier
+      valuesKey: grafana.yml
+      optional: false
+
   values:
     replicas: 3
 
@@ -58,6 +64,15 @@ spec:
         provider:
           foldersFromFilesStructure: true
           allowUiUpdates: true
+
+      # Load datasources from ConfigMaps & Secrets
+      datasources:
+        enabled: true
+        initDatasources: true # Have this sidecar both as an init & runtime container.
+        env:
+          LOG_FORMAT: JSON
+          LOG_TZ: UTC
+        searchNamespace: monitoring
 
       # Logging configuration
       log:

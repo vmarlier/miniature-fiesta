@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_datasource: '1'
+  name: grafana-datasource-thanos
+  namespace: monitoring
+data:
+  datasource-thanos.yml: |-
+    apiVersion: 1
+    datasources:
+      - name: thanos
+        type: prometheus
+        uid: 314NKJdz&
+        access: proxy
+        url: http://thanos-query-frontend.monitoring.svc.cluster.local:9090
+        jsonData:
+          customQueryParameters: max_source_resolution=auto
+        isDefault: true
