@@ -24,92 +24,93 @@ spec:
     nameOverride: "prometheus-kube-stack"
     fullnameOverride: "prometheus-kube-stack"
 
-    ingress:
-      enabled: false
+    prometheus:
+      ingress:
+        enabled: false
 
-    thanosService:
-      enabled: true
+      thanosService:
+        enabled: true
 
-    thanosServiceMonitor:
-      enabled: true
+      thanosServiceMonitor:
+        enabled: true
 
-    commonLabels:
-      # Used for prometheus-operator self monitoring
-      prometheus: prometheus-kube-cluster
+      commonLabels:
+        # Used for prometheus-operator self monitoring
+        prometheus: prometheus-kube-cluster
 
-    prometheusSpec:
-      logFormat: json
-      logLevel: info
+      prometheusSpec:
+        logFormat: json
+        logLevel: info
 
-      # Connect to Alertmanager
-      alertingEndpoints:
-        - name: alertmanager-operated
-          namespace: monitoring
-          pathPrefix: /
-          port: http-web
+        # Connect to Alertmanager
+        alertingEndpoints:
+          - name: alertmanager-operated
+            namespace: monitoring
+            pathPrefix: /
+            port: http-web
 
-      ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
-      ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
-      podAntiAffinity: "soft"
+        ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
+        ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+        podAntiAffinity: "soft"
 
-      ## PodMonitors to be selected for target discovery.
-      podMonitorSelector:
-        matchExpressions:
-          - key: prometheus
-            operator: In
-            values:
-              - prometheus-kube-cluster
-
-      ## ServiceMonitors to be selected for target discovery.
-      serviceMonitorSelector:
+        ## PodMonitors to be selected for target discovery.
+        podMonitorSelector:
           matchExpressions:
             - key: prometheus
               operator: In
               values:
                 - prometheus-kube-cluster
 
-      ## PrometheusRules to be selected for target discovery.
-      ruleSelector:
-          matchExpressions:
-            - key: prometheus
-              operator: In
-              values:
-                - prometheus-kube-cluster
+        ## ServiceMonitors to be selected for target discovery.
+        serviceMonitorSelector:
+            matchExpressions:
+              - key: prometheus
+                operator: In
+                values:
+                  - prometheus-kube-cluster
 
-      ruleSelectorNilUsesHelmValues: false
+        ## PrometheusRules to be selected for target discovery.
+        ruleSelector:
+            matchExpressions:
+              - key: prometheus
+                operator: In
+                values:
+                  - prometheus-kube-cluster
 
-      replicas: 2
+        ruleSelectorNilUsesHelmValues: false
 
-      ## Number of replicas multiplied by shards is the total number of Pods created.
-      shards: 1
+        replicas: 2
 
-      thanos:
-        objectStorageConfig:
-          key: objstore.yml
-          name: thanos-objstore
+        ## Number of replicas multiplied by shards is the total number of Pods created.
+        shards: 1
+
+        thanos:
+          objectStorageConfig:
+            key: objstore.yml
+            name: thanos-objstore
+          resources:
+            limits:
+              cpu: 200m
+              memory: 500Mi
+            requests:
+              cpu: 200m
+              memory: 500Mi
+
         resources:
           limits:
             cpu: 200m
-            memory: 500Mi
+            memory: 400Mi
           requests:
             cpu: 200m
-            memory: 500Mi
+            memory: 400Mi
 
-      resources:
-        limits:
-          cpu: 200m
-          memory: 400Mi
-        requests:
-          cpu: 200m
-          memory: 400Mi
+        ## How long to retain metrics
+        ##
+        retention: 10d
 
-      ## How long to retain metrics
-      ##
-      retention: 10d
-
-      ## Maximum size of metrics
-      ##
-      retentionSize: "2Gi"
+        ## Maximum size of metrics
+        ##
+        retentionSize: "2Gi"
 
     # Enable deployment of the Prometheus Operator itself
     prometheusOperator:
