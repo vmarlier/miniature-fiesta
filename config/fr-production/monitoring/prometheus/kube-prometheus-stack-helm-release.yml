@@ -110,7 +110,7 @@ spec:
 
         ## Maximum size of metrics
         ##
-        retentionSize: "2Gi"
+        retentionSize: 2Gi
 
     # Enable deployment of the Prometheus Operator itself
     prometheusOperator:
