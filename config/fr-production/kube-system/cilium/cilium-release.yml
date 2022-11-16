@@ -19,8 +19,38 @@ spec:
         namespace: admin
       interval: 10m
   values:
+    agent: false
+    operator:
+      enabled: false
+    cni:
+      install: false
     hubble:
+      enabled: true
       relay:
+        # set this to false as Hubble relay is already installed
         enabled: true
+        tls:
+          server:
+            # set this to true if tls is enabled on Hubble relay server side
+            enabled: true
       ui:
+        # enable Hubble UI
         enabled: true
+        standalone:
+          # enable Hubble UI standalone deployment
+          enabled: true
+          # provide a volume containing Hubble relay client certificates to mount in Hubble UI pod
+          tls:
+            certsVolume:
+              projected:
+                defaultMode: 0400
+                sources:
+                  - secret:
+                      name: my-hubble-ui-client-certs
+                      items:
+                        - key: tls.crt
+                          path: client.crt
+                        - key: tls.key
+                          path: client.key
+                        - key: ca.crt
+                          path: hubble-relay-ca.crt
