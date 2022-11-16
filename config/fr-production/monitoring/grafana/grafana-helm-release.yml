@@ -1,0 +1,75 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/managed-by: flux
+spec:
+  releaseName: grafana
+  chart:
+    spec:
+      chart: grafana
+      version: 6.43.3
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: admin
+      interval: 10m
+  maxHistory: 2
+  interval: 5m
+  timeout: 15m
+  values:
+    replicas: 3
+
+    admin:
+      existingSecret: grafana-admin-user
+      userKey: admin-user
+      passwordKey: admin-password
+
+    #ingress:
+    #  enabled: true
+    #  hosts:
+    #    - grafana.admin.int.cloud.talend.com
+
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus: prometheus-kube-cluster
+
+    resources:
+      limits:
+        cpu: 200m
+        memory: 400Mi
+      requests:
+        cpu: 200m
+        memory: 400Mi
+
+    sidecar:
+      logLevel: WARN
+      dashboards:
+        enabled: true
+        env:
+          LOG_FORMAT: JSON
+          LOG_TZ: UTC
+        searchNamespace: ALL
+        folderAnnotation: grafana/dashboard-folder
+        provider:
+          foldersFromFilesStructure: true
+          allowUiUpdates: true
+
+      # Logging configuration
+      log:
+        level: info
+        mode: console
+      log.console:
+        format: json
+
+      ## Good to have behind reverse proxies
+      #server:
+      #  root_url: https://grafana.admin.int.cloud.talend.com/
+
+    serviceAccount:
+      create: true
+      name: grafana
