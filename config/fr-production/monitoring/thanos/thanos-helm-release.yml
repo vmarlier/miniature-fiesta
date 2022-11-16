@@ -20,7 +20,7 @@ spec:
   timeout: 15m
   values:
     global:
-      storageClass: standard
+      storageClass: scw-bssd
 
     existingObjstoreSecret: thanos-objstore
 
