@@ -23,7 +23,6 @@ spec:
       storageClass: standard
 
     existingObjstoreSecret: thanos-objstore
-    existingServiceAccount: thanos
 
     bucketweb:
       enabled: true
