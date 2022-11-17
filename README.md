@@ -29,6 +29,8 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
 - [ ] Cluster Hardening and Security Improvment
   - [ ] Admission Controller: Kyverno
   - [ ] Network Policies
+- [ ] Chaos Engineering
+  - [ ] Litmus
 - [ ] Others
   - [ ] OpenFaaS ?
   - [ ] Keda ?
