@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver
+  namespace: admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: echoserver
+  template:
+    metadata:
+      labels:
+        pod: echoserver
+    spec:
+      containers:
+      - image: gcr.io/google_containers/echoserver:1.9
+        imagePullPolicy: Always
+        name: echoserver
+        ports:
+        - containerPort: 8080
