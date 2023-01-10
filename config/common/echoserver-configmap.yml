@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: flux-demo
+  name: demo
   namespace: kube-system
 data:
   demo: gitops
