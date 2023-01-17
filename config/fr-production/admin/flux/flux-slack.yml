@@ -39,7 +39,6 @@ spec:
     - kind: Kustomization
       name: miniature-fiesta-common
       namespace: admin
-
     - kind: HelmRelease
       name: '*'
       namespace: admin
