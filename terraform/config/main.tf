@@ -15,6 +15,7 @@ module "crds" {
     "flux" : {}
     "sealed-secrets" : {}
     "prometheus" : {}
+    "traefik" : {}
   }
 }
 
