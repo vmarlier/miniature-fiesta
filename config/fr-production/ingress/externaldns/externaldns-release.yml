@@ -36,6 +36,8 @@ spec:
     logLevel: info
     interval: 10m
 
+    txtPrefix: "externaldns."
+
     env:
       - name: SCW_ACCESS_KEY
         valueFrom:
