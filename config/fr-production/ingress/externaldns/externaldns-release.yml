@@ -20,7 +20,7 @@ spec:
       - name: externaldns
         image: registry.k8s.io/external-dns/external-dns:v0.13.2
         args:
-        - --source=service
+        - --request-timeout=60s
         - --source=ingress
         - --domain-filter=miniature-fiesta.ml
         - --provider=scaleway
