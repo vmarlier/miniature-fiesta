@@ -16,6 +16,7 @@ module "crds" {
     "sealed-secrets" : {}
     "prometheus" : {}
     "traefik" : {}
+    "externaldns" : {}
   }
 }
 
