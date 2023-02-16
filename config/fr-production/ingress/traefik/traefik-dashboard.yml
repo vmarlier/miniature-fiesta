@@ -1,0 +1,32 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress-dashboard
+  namespace: ingress
+  labels:
+    ingress: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`dashboard.traefik-ingress.fr-production.miniature-fiesta.ml`)
+      services:
+        - name: traefik-ingress-api
+          namespace: ingress
+          port: 9000
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: traefik-secure-minio-dashboard
+  namespace: ingress
+spec:
+  endpoints:
+    - dnsName: dashboard.traefik-ingress.fr-production.miniature-fiesta.ml
+      recordTTL: 300
+      recordType: CNAME
+      targets:
+        - traefik-ingress.fr-production.miniature-fiesta.ml
+---
