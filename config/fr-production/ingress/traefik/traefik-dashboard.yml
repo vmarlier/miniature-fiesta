@@ -11,7 +11,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`dashboard.traefik-ingress.fr-production.miniature-fiesta.ml`)
+      match: Host(`traefik-dashboard.fr-production.miniature-fiesta.ml`)
       services:
         - name: traefik-ingress-api
           namespace: ingress
@@ -24,7 +24,7 @@ metadata:
   namespace: ingress
 spec:
   endpoints:
-    - dnsName: dashboard.traefik-ingress.fr-production.miniature-fiesta.ml
+    - dnsName: traefik-dashboard.fr-production.miniature-fiesta.ml
       recordTTL: 300
       recordType: CNAME
       targets:
