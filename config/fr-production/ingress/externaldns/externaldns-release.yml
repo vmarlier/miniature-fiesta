@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: externaldns
+  namespace: ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: externaldns
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: externaldns
+    spec:
+      containers:
+      - name: externaldns
+        image: registry.k8s.io/external-dns/external-dns:v0.13.2
+        args:
+        - --source=service
+        - --source=ingress
+        - --domain-filter=miniature-fiesta.ml
+        - --provider=scaleway
+        env:
+        - name: SCW_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: externaldns-credentials
+              key: access-key
+        - name: SCW_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: externaldns-credentials
+              key: secret-key
+        - name: SCW_DEFAULT_ORGANIZATION_ID
+          value: "32cfc40b-5d06-4dc5-a8fd-f6759a1c8889"
