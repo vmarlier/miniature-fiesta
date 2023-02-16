@@ -1,53 +1,57 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
 metadata:
   name: externaldns
   namespace: ingress
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: externaldns
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: externaldns
+  interval: 5m
+  maxHistory: 2
+  releaseName: externaldns
+  chart:
     spec:
-      serviceAccountName: externaldns
-      containers:
-      - name: externaldns
-        image: registry.k8s.io/external-dns/external-dns:v0.13.2
-        args:
-        - --source=service
-        - --source=crd
-        - --source=ingress
-        - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-        - --crd-source-kind=DNSEndpoint
-        - --domain-filter=miniature-fiesta.ml
-        - --log-format=json
-        - --log-level=info
-        - --interval=10m
-        - --request-timeout=60s
-        - --provider=scaleway
-        env:
-        - name: SCW_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: externaldns-credentials
-              key: access-key
-        - name: SCW_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: externaldns-credentials
-              key: secret-key
-        - name: SCW_DEFAULT_ORGANIZATION_ID
-          value: "32cfc40b-5d06-4dc5-a8fd-f6759a1c8889"
-        resources:
-            requests:
-              memory: 128Mi
-              cpu: 200m
-            limits:
-              memory: 128Mi
-              cpu: 200m
+      chart: external-dns
+      version: 1.12.1
+      interval: 10m
+      sourceRef:
+        kind: HelmRepository
+        name: externaldns
+        namespace: admin
+  values:
+    provider: scaleway
+
+    sources:
+      - service
+      - ingress
+      - crd
+
+    extraArgs:
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --domain-filter=miniature-fiesta.ml
+      - --log-format=json
+      - --log-level=info
+      - --interval=10m
+      - --request-timeout=60s
+
+    env:
+      - name: SCW_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: externaldns-credentials
+            key: access-key
+      - name: SCW_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: externaldns-credentials
+            key: secret-key
+      - name: SCW_DEFAULT_ORGANIZATION_ID
+        value: "32cfc40b-5d06-4dc5-a8fd-f6759a1c8889"
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 200m
+      limits:
+        memory: 128Mi
+        cpu: 200m
