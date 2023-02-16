@@ -25,14 +25,12 @@ spec:
     # Disable services and create them with Flux instead
     # This allow us to later create both public & private load-balancers pointing to the same Traefik release
     service:
-      enabled: true
-      #enabled: false
+      enabled: false
 
     # Disable the IngressRoute for the dashboard
     ingressRoute:
       dashboard:
-        enabled: true
-        #enabled: false
+        enabled: false
 
     ## Logs, see https://docs.traefik.io/observability/logs/
     logs:
