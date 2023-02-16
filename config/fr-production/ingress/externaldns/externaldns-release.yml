@@ -28,11 +28,13 @@ spec:
     extraArgs:
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --domain-filter=miniature-fiesta.ml
-      - --log-format=json
-      - --log-level=info
-      - --interval=10m
       - --request-timeout=60s
+
+    domainFilters:
+      - miniature-fiesta.ml
+    logFormat: json
+    logLevel: info
+    interval: 10m
 
     env:
       - name: SCW_ACCESS_KEY
