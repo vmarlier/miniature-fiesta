@@ -31,7 +31,7 @@ spec:
       - --request-timeout=60s
 
     domainFilters:
-      - miniature-fiesta.ml
+      - fr-production.miniature-fiesta.ml
     logFormat: json
     logLevel: info
     interval: 10m
