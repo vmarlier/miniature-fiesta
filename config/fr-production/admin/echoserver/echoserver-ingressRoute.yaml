@@ -8,7 +8,7 @@ metadata:
     ingress: traefik
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
   - kind: Rule
     match: Host(`echoserver.fr-production.miniature-fiesta.ml`)
