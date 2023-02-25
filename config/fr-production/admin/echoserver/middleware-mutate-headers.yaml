@@ -3,6 +3,8 @@ kind: Middleware
 metadata:
   name: clean-headers
   namespace: ingress
+  labels:
+    ingress: traefik
 spec:
   headers:
     customRequestHeaders:
