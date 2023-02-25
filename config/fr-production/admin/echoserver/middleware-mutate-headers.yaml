@@ -10,6 +10,5 @@ spec:
     customRequestHeaders:
       X-Custom-Request-Header: "echoserver-request-through-a-middleware"
       user-agent: ""
-      host: ""
     customResponseHeaders:
       X-Custom-Response-Header: "echoserver-response-through-a-middleware"
