@@ -4,6 +4,8 @@ kind: IngressRoute
 metadata:
   name: echoserver
   namespace: admin
+  labels:
+    ingress: traefik
 spec:
   entryPoints:
     - websecure
