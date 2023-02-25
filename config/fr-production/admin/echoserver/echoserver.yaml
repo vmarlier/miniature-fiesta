@@ -2,29 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: echoserver
+  name: echoserver-a
   namespace: admin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: echoserver
+      app: echoserver-a
   template:
     metadata:
       labels:
-        app: echoserver
+        app: echoserver-a
     spec:
       containers:
       - image: gcr.io/google_containers/echoserver:1.9
         imagePullPolicy: Always
-        name: echoserver
+        name: echoserver-a
         ports:
         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: echoserver
+  name: echoserver-a
   namespace: admin
 spec:
   ports:
@@ -32,5 +32,41 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: echoserver
+    app: echoserver-a
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver-b
+  namespace: admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echoserver-b
+  template:
+    metadata:
+      labels:
+        app: echoserver-b
+    spec:
+      containers:
+      - image: gcr.io/google_containers/echoserver:1.9
+        imagePullPolicy: Always
+        name: echoserver-b
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echoserver-b
+  namespace: admin
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: echoserver-b
   type: ClusterIP

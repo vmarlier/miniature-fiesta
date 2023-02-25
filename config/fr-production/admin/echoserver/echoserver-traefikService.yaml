@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: TraefikService
+metadata:
+  name: echoserver-round-robin
+  namespace: admin
+spec:
+  weighted:
+    services:
+      - name: echoserver-a
+        port: 80
+        weight: 3
+      - name: echoserver-b
+        port: 80
+        weight: 1

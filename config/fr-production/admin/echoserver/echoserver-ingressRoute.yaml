@@ -14,8 +14,8 @@ spec:
     match: Host(`echoserver.fr-production.miniature-fiesta.ml`)
     priority: 10
     services:
-    - kind: Service
-      name: echoserver
+    - kind: TraefikService
+      name: echoserver-round-robin
       namespace: admin
       port: 80
       scheme: http
