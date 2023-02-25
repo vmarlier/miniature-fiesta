@@ -19,3 +19,15 @@ spec:
       namespace: admin
       port: 80
       scheme: http
+  - kind: Rule
+    match: Host(`echoserver.fr-production.miniature-fiesta.ml`) && Path(`/clean`)
+    priority: 5
+    middlewares:
+    - name: clean-headers
+      namespace: ingress
+    services:
+    - kind: Service
+      name: echoserver
+      namespace: admin
+      port: 80
+      scheme: http
