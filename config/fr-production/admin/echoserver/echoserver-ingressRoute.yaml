@@ -21,7 +21,7 @@ spec:
       scheme: http
   - kind: Rule
     match: Host(`echoserver.fr-production.miniature-fiesta.ml`) && Path(`/clean`)
-    priority: 5
+    priority: 15
     middlewares:
     - name: clean-headers
       namespace: ingress
