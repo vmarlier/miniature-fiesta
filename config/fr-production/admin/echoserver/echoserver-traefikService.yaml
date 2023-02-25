@@ -4,6 +4,8 @@ kind: TraefikService
 metadata:
   name: echoserver-round-robin
   namespace: admin
+  labels:
+    ingress: traefik
 spec:
   weighted:
     services:
