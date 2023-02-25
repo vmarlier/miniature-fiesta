@@ -1,0 +1,13 @@
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: echoserver
+  namespace: admin
+spec:
+  endpoints:
+    - dnsName: echoserver.fr-production.miniature-fiesta.ml
+      recordTTL: 300
+      recordType: CNAME
+      targets:
+        - traefik-ingress.fr-production.miniature-fiesta.ml
