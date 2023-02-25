@@ -75,7 +75,7 @@ spec:
         exposedPort: 443
         protocol: TCP
         tls:
-          enabled: true
+          enabled: false
 
     ## Configure the deployment
     deployment:
