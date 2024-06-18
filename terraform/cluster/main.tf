@@ -2,8 +2,8 @@ module "kapsule" {
   source = "git@github.com:vmarlier/terraform-modules.git//kapsule?ref=main"
 
   cluster_name    = "fr-production"
-  cluster_version = "1.23.13"
-  cluster_cni     = "cilium"
+  cluster_version = "1.29.1"
+  cluster_cni     = "calico"
 
   cluster_project_id = "6f2600e2-7b1a-468d-a7f4-f36569eb8f19"
   cluster_region     = "fr-par"

@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.1"
+  required_version = ">= 1.5"
 
   backend "s3" {
     bucket                      = "terraform-tfstate"
@@ -29,7 +29,7 @@ terraform {
     }
     scaleway = {
       source  = "scaleway/scaleway"
-      version = "~> 2.5.0"
+      version = "~> 2.41.2"
     }
   }
 }
