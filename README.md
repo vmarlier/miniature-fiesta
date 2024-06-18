@@ -12,7 +12,7 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [X] CRDs
   - [X] Namespaces
   - [X] GitOps: Fluxv2 Stack
-  - [X] Secret Handling: SealedSecret
+  - [X] Secret Handling: SealedSecret || plan to use externalSecret ?
 - [ ] Observability Stack
   - [X] Prometheus
   - [X] Thanos
@@ -20,7 +20,7 @@ The idea behind miniature fiesta is to managed a k8s cluster in a production lik
   - [ ] Loki
   - [ ] Tempo
 - [ ] Service Mesh - Cilium
-  - [X] Hubble
+  - [ ] Hubble
   - [ ] Demo Application - WIP
 - [ ] Ingress Controller
   - [ ] Traefik2
