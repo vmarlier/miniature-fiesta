@@ -1,17 +1,15 @@
 module "kapsule" {
-  source = "git@github.com:vmarlier/terraform-modules.git//kapsule?ref=main"
+  source = "git@github.com:vmarlier/terraform-modules.git//scaleway-k8s-cluster?ref=main"
 
   cluster_name    = "fr-production"
-  cluster_version = "1.29.1"
+  cluster_version = "1.30.2"
   cluster_cni     = "calico"
 
   cluster_project_id = "6f2600e2-7b1a-468d-a7f4-f36569eb8f19"
   cluster_region     = "fr-par"
+  private_network_id = data.scaleway_vpc_private_network.this.id
 
-  shared_tags = [
-    "project=miniature-fiesta",
-    "environment=production"
-  ]
+  shared_tags = local.default_tags
 
   node_pools = {
     default = {
@@ -38,11 +36,10 @@ module "kapsule" {
 
       kubelet_args = {}
 
-      tags = [
-        "environment=production",
-        "project=miniature-fiesta",
-        "type=default"
-      ]
+      tags = concat(local.default_tags,
+        [
+          "type=default"
+      ])
     }
   }
 }
